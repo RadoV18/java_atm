@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Pantalla cre = new Pantalla("Menú principal");
+ * Pantalla cre = new Pantalla("Menï¿½ principal");
  * cre.agregarContenido(" 1. Versaldo" , "2. Retirar fondos", "3. Depositar fondos")
- * cre.definirDatoEntrada("Elija una opción: ",  "Integer");
+ * cre.definirDatoEntrada("Elija una opciï¿½n: ",  "Integer");
  * 
  * Pantalla login = new Pantalla("Inreso al sistema");
  * login.agregarContenido(" Bienvenido al Banco")
@@ -27,7 +27,7 @@ public class Pantalla {
     private String titulo;
     private List<String> contenido;
     
-    // Para los datos que se le solicitará al cliente
+    // Para los datos que se le solicitarï¿½ al cliente
     private List<String> etiquetasIn;
     private List<String> tipoDatoIn;
     private List<Object> valores;

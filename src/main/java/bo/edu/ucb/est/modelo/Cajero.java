@@ -26,8 +26,6 @@ public class Cajero {
     public Cajero(Banco banco) {
         this.banco = banco;
         
-       
-        
         // Las siguientes son pantallas dinamicas, es decir su contenido
         // va a cambiar con el comportamiento del programa
         
@@ -40,25 +38,36 @@ public class Cajero {
     public void iniciarCajero() {
         boolean salir = false;
         while(!salir) {
-            // Primero mostramos la pantalla de ingreso
-            Pantalla pantallaIngreso = construirPantallaIngreso();
-            List<Object> credenciales = pantallaIngreso.desplegar(); // Obtenemos las credenciales
-            
-            // Puede retornar pantalla de error o menu de opciones
-            Pantalla resultadoValidarCredenciales = controladorValidarCredenciales(credenciales);
-            if (resultadoValidarCredenciales.getTitulo().equals("Cajero ATM")) {
+            Pantalla resultado = new Pantalla("");
+            // Verificar si es que hay un cliente con la sesiÃ³n activa
+            if(cliente != null) {
+                //Mostrar la pantalla principal
+                resultado = construirPantallaPrincipal();
+            } else {
+                //Mostrar la pantalla de ingreso
+                Pantalla pantallaIngreso = construirPantallaIngreso();
+                List<Object> credenciales = pantallaIngreso.desplegar(); // Obtenemos las credenciales
+                
+                // Puede retornar pantalla de error o menu de opciones
+               resultado = controladorValidarCredenciales(credenciales);
+            }
+
+            //Verificar
+            if (resultado.getTitulo().equals("Cajero ATM")) {
                 //Se muestra el menu de opciones
-                List<Object> opcionListado = resultadoValidarCredenciales.desplegar();
+                List<Object> opcionListado = resultado.desplegar();
                 Integer opcion = (Integer) opcionListado.get(0);
                 if (opcion == 1) { // Ver saldo
                     verSaldo();
                 } else if (opcion == 2){ // Depositar
-                } 
+
+                } else if (opcion == 3) { // Retirar
+                    
+                }
             } else {
                 // Es error y se muestra el mensaje de error
-                resultadoValidarCredenciales.desplegar();
+                resultado.desplegar();
             }
-
         }
     }
     
@@ -67,8 +76,8 @@ public class Cajero {
     /**
      * Este metodo valida las credenciales ingresadas por el usuario, entonces
      * existen opciones.
-     *  1. Las credenciales sean válidas.: Retorna la pantalla de menú principal
-     *  2. LAs credenciales sean inválidas: Retorna la pantalla de error
+     *  1. Las credenciales sean vï¿½lidas.: Retorna la pantalla de menï¿½ principal
+     *  2. LAs credenciales sean invï¿½lidas: Retorna la pantalla de error
      * @param credenciales
      * @return 
      */
@@ -78,7 +87,7 @@ public class Cajero {
                 (String) credenciales.get(1));
         if (cliente == null) { // Significa que las credenciales son incorrectas
             List contenido = new ArrayList();
-            contenido.add("No se encontró al usuario.");
+            contenido.add("No se encontrï¿½ al usuario.");
             pantallaError.setContenido(contenido);
             pantallaError.desplegar();
             resultado = pantallaError;
@@ -89,12 +98,12 @@ public class Cajero {
     }
     
     private Pantalla construirPantallaIngreso() {
-        // Inicialización de pantallas y configuración.
-        Pantalla pantallaIngreso = new Pantalla("Cajero automático");
+        // Inicializaciï¿½n de pantallas y configuraciï¿½n.
+        Pantalla pantallaIngreso = new Pantalla("Cajero automï¿½tico");
         List ingresoContenido = new ArrayList();
         ingresoContenido.add(" Bienvenido al sistema, por favor ingrese su credenciales");
         pantallaIngreso.setContenido(ingresoContenido);
-        pantallaIngreso.definirDatoEntrada("Código de usuario: ", "String");
+        pantallaIngreso.definirDatoEntrada("Cï¿½digo de usuario: ", "String");
         pantallaIngreso.definirDatoEntrada("PIN: ", "String");
         return pantallaIngreso;
     }
@@ -109,7 +118,7 @@ public class Cajero {
         menuPrincipalContenido.add(" 4. Salir");
         menuPrincipalContenido.add(" ");
         pantallaMenuPrincipal.setContenido(menuPrincipalContenido);
-        pantallaMenuPrincipal.definirDatoEntrada("Seleccione una opción: ", "Integer");
+        pantallaMenuPrincipal.definirDatoEntrada("Seleccione una opciï¿½n: ", "Integer");
        return pantallaMenuPrincipal;
     }
     
@@ -122,9 +131,9 @@ public class Cajero {
                     + " " + cuenta.getTipo());
         }
         Pantalla pantallaListadoCuentas = new Pantalla("Sus cuentas");
-        pantallaListadoCuentas.definirDatoEntrada("Seleccione una opción: ", "Integer");
+        pantallaListadoCuentas.definirDatoEntrada("Seleccione una opciï¿½n: ", "Integer");
         pantallaListadoCuentas.setContenido(listadoCuentasContenido);
-        List<Object> datosIntroducidos = pantallaListadoCuentas.desplegar(); // Retorna la cuenta que eligió
+        List<Object> datosIntroducidos = pantallaListadoCuentas.desplegar(); // Retorna la cuenta que eligiï¿½
         Integer indiceCuenta = (Integer) datosIntroducidos.get(0);
         //TODO validar que el indiceCuenta sea un numero entre 1 y el numero total de cuentas
         // La cuenta para mostrar el saldo
