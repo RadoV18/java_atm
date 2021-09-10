@@ -161,6 +161,12 @@ public class Cajero {
         
     }
 
+    public Pantalla construtirPantallaMovientos(Boolean flagDeposito){
+       Pantalla solicitudMonto = new Pantalla(flagDeposito?"Deposito":"Retiro");
+       solicitudMonto.definirDatoEntrada("Ingrese el monoto: ", "Integer");
+       return solicitudMonto;
+    }
+
     /**
      * Construccion de pantalla para mostrar las cuentas
      * @return
