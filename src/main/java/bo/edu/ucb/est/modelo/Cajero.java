@@ -7,7 +7,6 @@ package bo.edu.ucb.est.modelo;
 
 import bo.edu.ucb.est.iu.Pantalla;
 //import jdk.internal.jshell.tool.resources.l10n;
-import jdk.javadoc.internal.doclets.formats.html.SourceToHTMLConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,16 +147,25 @@ public class Cajero {
         Pantalla pantallaListadoCuentas = construirPantallaListadoCuentas();
         List<Object> datosIntroducidos = pantallaListadoCuentas.desplegar();
         int indiceCuenta = (Integer) datosIntroducidos.get(0);
-       
-
-        
+        Pantalla pantallaDeposito = construtirPantallaMovientos(true);
+        List<Object> montoIntroducido = pantallaDeposito.desplegar();
+        int monto = (Integer) montoIntroducido.get(0);
+        if(!cliente.getCuentas().get(indiceCuenta - 1).depositar(monto)) {
+            pantallaError.desplegar();
+        }
+                
     }
 
     private void retirar() {
         Pantalla pantallaListadoCuentas = construirPantallaListadoCuentas();
         List<Object> datosIntroducidos = pantallaListadoCuentas.desplegar();
         int indiceCuenta = (Integer) datosIntroducidos.get(0);
-
+        Pantalla pantallaRetiro = construtirPantallaMovientos(false);
+        List<Object> montoIntroducido = pantallaRetiro.desplegar();
+        int monto = (Integer) montoIntroducido.get(0);
+        if(!cliente.getCuentas().get(indiceCuenta - 1).retirar(monto)) {
+            pantallaError.desplegar();
+        }
         
     }
 
