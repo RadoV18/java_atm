@@ -6,7 +6,8 @@
 package bo.edu.ucb.est.modelo;
 
 import bo.edu.ucb.est.iu.Pantalla;
-import jdk.internal.jshell.tool.resources.l10n;
+//import jdk.internal.jshell.tool.resources.l10n;
+import jdk.javadoc.internal.doclets.formats.html.SourceToHTMLConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +128,44 @@ public class Cajero {
     }
     
     private void verSaldo() {
+        Pantalla pantallaListadoCuentas = construirPantallaListadoCuentas();
+        
+         List<Object> datosIntroducidos = pantallaListadoCuentas.desplegar(); // Retorna la cuenta que eligi�
+         Integer indiceCuenta = (Integer) datosIntroducidos.get(0);
+         //TODO validar que el indiceCuenta sea un numero entre 1 y el numero total de cuentas
+         // La cuenta para mostrar el saldo
+         Cuenta cuenta = cliente.getCuentas().get(indiceCuenta - 1);
+         Pantalla pantallaVerSaldo = new Pantalla("Ver saldo");
+         List<String> contenidoVerSaldo = new ArrayList();
+         contenidoVerSaldo.add("Cliente: " + cliente.getNombre());
+         contenidoVerSaldo.add("Nro Cuenta: " + cuenta.getNroCuenta());
+         contenidoVerSaldo.add("Saldo: " + cuenta.getMoneda() + " " + cuenta.getSaldo());
+         pantallaVerSaldo.setContenido(contenidoVerSaldo);
+         pantallaVerSaldo.desplegar();
+     }
+
+    private void depositar() {
+        Pantalla pantallaListadoCuentas = construirPantallaListadoCuentas();
+        List<Object> datosIntroducidos = pantallaListadoCuentas.desplegar();
+        int indiceCuenta = (Integer) datosIntroducidos.get(0);
+       
+
+        
+    }
+
+    private void retirar() {
+        Pantalla pantallaListadoCuentas = construirPantallaListadoCuentas();
+        List<Object> datosIntroducidos = pantallaListadoCuentas.desplegar();
+        int indiceCuenta = (Integer) datosIntroducidos.get(0);
+
+        
+    }
+
+    /**
+     * Construccion de pantalla para mostrar las cuentas
+     * @return
+     */
+    public Pantalla construirPantallaListadoCuentas(){
         List<String> listadoCuentasContenido = new ArrayList();
         listadoCuentasContenido.add(" Elija una sus cuentas:");
         for ( int i = 0 ; i < cliente.getCuentas().size() ; i ++ ) {
@@ -137,33 +176,10 @@ public class Cajero {
         Pantalla pantallaListadoCuentas = new Pantalla("Sus cuentas");
         pantallaListadoCuentas.definirDatoEntrada("Seleccione una opci�n: ", "Integer");
         pantallaListadoCuentas.setContenido(listadoCuentasContenido);
-        List<Object> datosIntroducidos = pantallaListadoCuentas.desplegar(); // Retorna la cuenta que eligi�
-        Integer indiceCuenta = (Integer) datosIntroducidos.get(0);
-        //TODO validar que el indiceCuenta sea un numero entre 1 y el numero total de cuentas
-        // La cuenta para mostrar el saldo
-        Cuenta cuenta = cliente.getCuentas().get(indiceCuenta - 1);
-        Pantalla pantallaVerSaldo = new Pantalla("Ver saldo");
-        List<String> contenidoVerSaldo = new ArrayList();
-        contenidoVerSaldo.add("Cliente: " + cliente.getNombre());
-        contenidoVerSaldo.add("Nro Cuenta: " + cuenta.getNroCuenta());
-        contenidoVerSaldo.add("Saldo: " + cuenta.getMoneda() + " " + cuenta.getSaldo());
-        pantallaVerSaldo.setContenido(contenidoVerSaldo);
-        pantallaVerSaldo.desplegar();
-    }
-
-    private void depositar() {
-        Pantalla pantallaListadoCuentas = construirPantallaListadoCuentas();
-        List<Object> datosIntroducidos = pantallaListadoCuentas.desplegar();
-        int indiceCuenta = (Integer) datosIntroducidos.get(0);
+        return pantallaListadoCuentas;
         
     }
-
-    private void retirar() {
-        Pantalla pantallaListadoCuentas = construirPantallaListadoCuentas();
-        List<Object> datosIntroducidos = pantallaListadoCuentas.desplegar();
-        int indiceCuenta = (Integer) datosIntroducidos.get(0);
-        
-    }
+    
     
     
 }
