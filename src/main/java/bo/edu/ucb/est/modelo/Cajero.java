@@ -6,6 +6,8 @@
 package bo.edu.ucb.est.modelo;
 
 import bo.edu.ucb.est.iu.Pantalla;
+import jdk.internal.jshell.tool.resources.l10n;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class Cajero {
     public void iniciarCajero() {
         boolean salir = false;
         while(!salir) {
-            Pantalla resultado = new Pantalla("");
+            Pantalla resultado = null;
             // Verificar si es que hay un cliente con la sesión activa
             if(cliente != null) {
                 //Mostrar la pantalla principal
@@ -52,7 +54,7 @@ public class Cajero {
                resultado = controladorValidarCredenciales(credenciales);
             }
 
-            //Verificar
+            //Verificar el titulo de la pantalla
             if (resultado.getTitulo().equals("Cajero ATM")) {
                 //Se muestra el menu de opciones
                 List<Object> opcionListado = resultado.desplegar();
@@ -60,9 +62,11 @@ public class Cajero {
                 if (opcion == 1) { // Ver saldo
                     verSaldo();
                 } else if (opcion == 2){ // Depositar
-
+                    depositar();
                 } else if (opcion == 3) { // Retirar
-                    
+                    retirar();
+                } else {
+                    cliente = null;
                 }
             } else {
                 // Es error y se muestra el mensaje de error
@@ -145,6 +149,20 @@ public class Cajero {
         contenidoVerSaldo.add("Saldo: " + cuenta.getMoneda() + " " + cuenta.getSaldo());
         pantallaVerSaldo.setContenido(contenidoVerSaldo);
         pantallaVerSaldo.desplegar();
+    }
+
+    private void depositar() {
+        Pantalla pantallaListadoCuentas = construirPantallaListadoCuentas();
+        List<Object> datosIntroducidos = pantallaListadoCuentas.desplegar();
+        int indiceCuenta = (Integer) datosIntroducidos.get(0);
+        
+    }
+
+    private void retirar() {
+        Pantalla pantallaListadoCuentas = construirPantallaListadoCuentas();
+        List<Object> datosIntroducidos = pantallaListadoCuentas.desplegar();
+        int indiceCuenta = (Integer) datosIntroducidos.get(0);
+        
     }
     
     
